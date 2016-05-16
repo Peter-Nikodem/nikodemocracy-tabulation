@@ -25,7 +25,7 @@ public class ElectionEntity {
 
     }
 
-    public ElectionEntity(String electionId, String question, boolean isFinished) {
+    public ElectionEntity(String electionId, String question) {
         this.electionId = electionId;
         this.question = question;
         this.isFinished = false;

@@ -12,16 +12,12 @@ public class AnswerEntity {
     @Column
     private String answerText;
 
-    @Column
-    private int answerOrder;
-
     @ManyToOne
     private ElectionEntity election;
 
-    public AnswerEntity(ElectionEntity election, String answerText, int answerOrder) {
-        this.election = election;
+    public AnswerEntity(String answerText,ElectionEntity election) {
         this.answerText = answerText;
-        this.answerOrder = answerOrder;
+        this.election = election;
     }
 
     public AnswerEntity() {
@@ -41,13 +37,5 @@ public class AnswerEntity {
 
     public void setAnswerText(String answerText) {
         this.answerText = answerText;
-    }
-
-    public int getAnswerOrder() {
-        return answerOrder;
-    }
-
-    public void setAnswerOrder(int answerOrder) {
-        this.answerOrder = answerOrder;
     }
 }
