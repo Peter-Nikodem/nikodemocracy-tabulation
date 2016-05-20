@@ -1,6 +1,6 @@
 package net.nikodem.controller;
 
-import net.nikodem.model.exception.NikodemocracyException;
+import net.nikodem.model.exception.NikodemocracyRequestException;
 import net.nikodem.model.json.ErrorMessage;
 import net.nikodem.model.json.VoteSubmission;
 import net.nikodem.service.VoteReceivingService;
@@ -23,7 +23,7 @@ public class VoteReceivingController {
         try {
             voteReceivingService.receiveVote(voteSubmission);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        } catch (NikodemocracyException ex){
+        } catch (NikodemocracyRequestException ex){
             return new ResponseEntity<>(ex.getErrorMessageJson(), HttpStatus.BAD_REQUEST);
         }
     }

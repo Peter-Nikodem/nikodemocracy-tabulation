@@ -27,16 +27,11 @@ class VoteSubmissionValidatorSpec extends Specification {
         validator.setVoterKeyRepository(voterKeyRepositoryMock)
         validator.setAnswerRepository(answerRepositoryMock)
         validator.setVoteRepository(voteRepositoryMock)
-        validator.setElectionRepository(electionRepositoryMock)
     }
 
 
     def "Mock that voterKey has already been used"(boolean isTrue) {
         _ * voteRepositoryMock.existsByElectionElectionIdAndVoterKeyVoterKey(*_) >> isTrue
-    }
-
-    def "Mock that election has finished"(boolean isTrue) {
-        _ * electionRepositoryMock.isElectionFinished(*_) >> isTrue
     }
 
     def "Mock that chosen answer exists"(boolean isTrue) {
@@ -88,7 +83,6 @@ class VoteSubmissionValidatorSpec extends Specification {
         given:
         "Mock that voterKey is authorized"(true)
         "Mock that chosen answer exists"(true)
-        "Mock that election has finished"(false)
         "Mock that voterKey has already been used"(false)
         expect:
         validator.validate(submission)
@@ -118,22 +112,10 @@ class VoteSubmissionValidatorSpec extends Specification {
         thrown(AnswerDoesNotExistException)
     }
 
-    def "Election must not be finished"() {
-        given:
-        "Mock that voterKey is authorized"(true)
-        "Mock that chosen answer exists"(true)
-        "Mock that election has finished"(true)
-        when:
-        validator.validate(SYNTACTICALLY_VALID_SUBMISSION)
-        then:
-        thrown(ElectionHasFinishedException)
-    }
-
     def "VoterKey must have not been already used for voting"() {
         given:
         "Mock that voterKey is authorized"(true)
         "Mock that chosen answer exists"(true)
-        "Mock that election has finished"(false)
         "Mock that voterKey has already been used"(true)
         when:
         validator.validate(SYNTACTICALLY_VALID_SUBMISSION)
@@ -145,7 +127,6 @@ class VoteSubmissionValidatorSpec extends Specification {
         given:
         "Mock that voterKey is authorized"(true)
         "Mock that chosen answer exists"(true)
-        "Mock that election has finished"(false)
         "Mock that voterKey has already been used"(false)
         expect:
         validator.validate(SYNTACTICALLY_VALID_SUBMISSION)

@@ -1,6 +1,6 @@
 package net.nikodem.model.json;
 
-public class ErrorMessage {
+public class ErrorMessage extends AbstractNikodemocracyResponse {
     private String errorMessage;
 
     public ErrorMessage(String errorMessage) {

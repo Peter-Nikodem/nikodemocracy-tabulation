@@ -1,7 +1,8 @@
 package net.nikodem.controller
 
 import net.nikodem.TestUtils
-import net.nikodem.model.exception.NikodemocracyException
+import net.nikodem.model.exception.EmptyElectionIdException
+import net.nikodem.model.exception.NikodemocracyRequestException
 import net.nikodem.model.json.VoteSubmission
 import net.nikodem.service.VoteReceivingService
 import org.mockito.InjectMocks
@@ -13,7 +14,6 @@ import spock.lang.Specification
 
 import static org.hamcrest.Matchers.is
 import static org.hamcrest.Matchers.notNullValue
-import static org.mockito.Matchers.any
 import static org.mockito.Mockito.doNothing
 import static org.mockito.Mockito.doThrow
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
@@ -48,7 +48,7 @@ class VoteReceivingControllerSpec extends Specification {
 
     def "throny path"() {
         when:
-        doThrow(NikodemocracyException).when(voteReceivingServiceMock).receiveVote(voteSubmission)
+        doThrow(EmptyElectionIdException).when(voteReceivingServiceMock).receiveVote(voteSubmission)
         then:
         mockMvc.perform(post("/votes")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
@@ -59,6 +59,5 @@ class VoteReceivingControllerSpec extends Specification {
                 .andExpect(jsonPath('$', notNullValue()))
                 .andExpect(jsonPath('$.errorMessage', is(notNullValue())));
     }
-
 
 }

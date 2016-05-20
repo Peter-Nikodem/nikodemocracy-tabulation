@@ -11,7 +11,6 @@ import static net.nikodem.util.ValidationPreconditions.*;
 @Component
 public class VoteSubmissionValidator {
 
-    private ElectionRepository electionRepository;
     private AnswerRepository answerRepository;
     private VoterKeyRepository voterKeyRepository;
     private VoteRepository voteRepository;
@@ -30,10 +29,7 @@ public class VoteSubmissionValidator {
             throw new UnauthorizedVoteSubmissionException();
         }
         if (chosenAnswerDoesNotExistForTheElection(voteSubmission.getElectionId(), voteSubmission.getChosenAnswer())) {
-            throw new AnswerDoesNotExistException();
-        }
-        if (electionHasBeenFinished(voteSubmission.getElectionId())) {
-            throw new ElectionHasFinishedException();
+            throw new AnswerDoesNotExistException(voteSubmission.getChosenAnswer());
         }
         if (voterKeyHasBeenUsed(voteSubmission.getElectionId(), voteSubmission.getVoterKey())) {
             throw new VoterKeyHasBeenUsedException();
@@ -50,15 +46,6 @@ public class VoteSubmissionValidator {
 
     private boolean voterKeyHasBeenUsed(String electionId, String voterKey) {
         return voteRepository.existsByElectionElectionIdAndVoterKeyVoterKey(electionId, voterKey);
-    }
-
-    private boolean electionHasBeenFinished(String electionId) {
-        return electionRepository.isElectionFinished(electionId);
-    }
-
-    @Autowired
-    public void setElectionRepository(ElectionRepository electionRepository) {
-        this.electionRepository = electionRepository;
     }
 
     @Autowired

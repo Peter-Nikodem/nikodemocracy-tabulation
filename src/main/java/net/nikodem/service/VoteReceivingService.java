@@ -12,29 +12,17 @@ public class VoteReceivingService {
 
     private VoteSaver voteSaver;
 
-    private ElectionCompletionChecker electionCompletionChecker;
-
-    public void receiveVote(VoteSubmission voteSubmission) throws NikodemocracyException {
+    public void receiveVote(VoteSubmission voteSubmission) throws NikodemocracyRequestException {
         validate(voteSubmission);
         storeVoteAndUpdatePermission(voteSubmission);
-        asynchronouslyCheckIfVotingLimitHasBeenMet(voteSubmission);
     }
 
-    private void validate(VoteSubmission voteSubmission) throws NikodemocracyException {
+    private void validate(VoteSubmission voteSubmission) throws NikodemocracyRequestException {
         voteSubmissionValidator.validate(voteSubmission);
     }
 
     private void storeVoteAndUpdatePermission(VoteSubmission voteSubmission) {
         voteSaver.save(voteSubmission);
-    }
-
-    private void asynchronouslyCheckIfVotingLimitHasBeenMet(VoteSubmission voteSubmission) {
-        new Thread(checkElectionCompleteness(voteSubmission)).start();
-    }
-
-    private Runnable checkElectionCompleteness(VoteSubmission voteSubmission) {
-        String electionId = voteSubmission.getElectionId();
-        return () -> electionCompletionChecker.checkIfFinished(electionId);
     }
 
     @Autowired
@@ -45,10 +33,5 @@ public class VoteReceivingService {
     @Autowired
     public void setVoteSaver(VoteSaver voteSaver) {
         this.voteSaver = voteSaver;
-    }
-
-    @Autowired
-    public void setElectionCompletionChecker(ElectionCompletionChecker electionCompletionChecker) {
-        this.electionCompletionChecker = electionCompletionChecker;
     }
 }

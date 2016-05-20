@@ -8,7 +8,6 @@ import spock.lang.Specification
 class VoteReceivingServiceSpec extends Specification {
     VoteReceivingService service
     VoteSubmissionValidator validatorMock
-    ElectionCompletionChecker electionCompletionCheckerMock
     VoteSaver voteSaverMock
 
     VoteSubmission voteSubmissionExample = new VoteSubmission("01","a","12345671234567",null)
@@ -16,12 +15,10 @@ class VoteReceivingServiceSpec extends Specification {
     def setup() {
         validatorMock = Mock(VoteSubmissionValidator)
         voteSaverMock = Mock(VoteSaver)
-        electionCompletionCheckerMock = Mock(ElectionCompletionChecker)
 
         service = new VoteReceivingService()
         service.voteSubmissionValidator = validatorMock
         service.voteSaver = voteSaverMock
-        service.electionCompletionChecker = electionCompletionCheckerMock
     }
 
     def "Successful vote"(){
@@ -30,7 +27,6 @@ class VoteReceivingServiceSpec extends Specification {
         then:
         1 * validatorMock.validate(_)
         1 * voteSaverMock.save(_)
-        1 * electionCompletionCheckerMock.checkIfFinished(_)
     }
 
     def "Unsuccessful vote"(){
@@ -40,7 +36,6 @@ class VoteReceivingServiceSpec extends Specification {
         service.receiveVote(voteSubmissionExample)
         then:
         0 * voteSaverMock.save(_)
-        0 * electionCompletionCheckerMock.checkIfFinished(_)
         thrown(UnauthorizedVoteSubmissionException)
     }
 

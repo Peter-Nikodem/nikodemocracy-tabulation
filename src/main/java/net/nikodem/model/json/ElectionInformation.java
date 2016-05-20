@@ -3,6 +3,7 @@ package net.nikodem.model.json;
 import java.util.*;
 
 public class ElectionInformation {
+
     private String electionId;
     private String question;
     private List<String> answers;
@@ -48,5 +49,15 @@ public class ElectionInformation {
 
     public void setVoterKeys(List<String> voterKeys) {
         this.voterKeys = voterKeys;
+    }
+
+    @Override
+    public String toString() {
+        return "ElectionInformation{" +
+                "electionId='" + electionId + '\'' +
+                ", question='" + question + '\'' +
+                ", answers=" + answers +
+                ", voterKeys=" + voterKeys +
+                '}';
     }
 }
