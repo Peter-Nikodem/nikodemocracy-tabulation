@@ -1,9 +1,10 @@
 package net.nikodem.service;
 
 import net.nikodem.model.exception.*;
-import net.nikodem.model.json.VoteSubmission;
+import net.nikodem.model.dto.VoteSubmission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.*;
 
 @Service
 public class VoteReceivingService {
@@ -12,6 +13,7 @@ public class VoteReceivingService {
 
     private VoteSaver voteSaver;
 
+    @Transactional
     public void receiveVote(VoteSubmission voteSubmission) throws NikodemocracyRequestException {
         validate(voteSubmission);
         storeVoteAndUpdatePermission(voteSubmission);

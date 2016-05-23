@@ -1,9 +1,7 @@
 package net.nikodem.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity(name = "Election")
 public class ElectionEntity {
@@ -13,22 +11,19 @@ public class ElectionEntity {
     private long id;
 
     @Column
+    @NotNull
     private String electionId;
 
     @Column
+    @NotNull
     private String question;
 
-    @Column
-    private boolean isFinished;
-
-    public ElectionEntity(){
-
+    public ElectionEntity() {
     }
 
     public ElectionEntity(String electionId, String question) {
         this.electionId = electionId;
         this.question = question;
-        this.isFinished = false;
     }
 
     public String getElectionId() {
@@ -45,13 +40,5 @@ public class ElectionEntity {
 
     public void setQuestion(String question) {
         this.question = question;
-    }
-
-    public boolean isFinished() {
-        return isFinished;
-    }
-
-    public void setFinished(boolean finished) {
-        isFinished = finished;
     }
 }

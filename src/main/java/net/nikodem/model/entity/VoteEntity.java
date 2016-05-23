@@ -19,6 +19,7 @@ public class VoteEntity {
     private VoterKeyEntity voterKey;
 
     @Column
+    @NotNull
     private String voteKey;
 
     public VoteEntity(AnswerEntity chosenAnswer, VoterKeyEntity voterKey, String voteKey) {

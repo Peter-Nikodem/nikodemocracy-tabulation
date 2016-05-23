@@ -12,7 +12,8 @@ public interface AnswerRepository extends JpaRepository<AnswerEntity, Long> {
     @Query("SELECT CASE WHEN (COUNT(*) > 0)  THEN true ELSE false END FROM Answer a WHERE a.election.electionId = ?1 AND a.answerText = ?2")
     boolean existsByElectionIdAndAnswerText(String electionId, String chosenAnswer);
 
-    List<AnswerEntity> findByElection(ElectionEntity election);
+    @Query("SELECT a.answerText FROM Answer a WHERE a.election = ?1")
+    List<String> findAnswerTextsByElection(ElectionEntity election);
 }
 
 

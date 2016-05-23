@@ -1,7 +1,5 @@
 package net.nikodem.model.exception;
 
-import net.nikodem.model.json.*;
-
 public class AnswerDoesNotExistException extends NikodemocracyRequestException {
 
     private final String chosenAnswer;

@@ -1,6 +1,6 @@
 package net.nikodem.model.exception;
 
-import net.nikodem.model.json.ErrorMessage;
+import net.nikodem.model.dto.ErrorMessage;
 
 public abstract class NikodemocracyRequestException extends RuntimeException {
 

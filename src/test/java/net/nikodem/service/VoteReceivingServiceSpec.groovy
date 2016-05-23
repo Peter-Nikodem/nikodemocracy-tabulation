@@ -1,7 +1,7 @@
 package net.nikodem.service
 
 import net.nikodem.model.exception.UnauthorizedVoteSubmissionException
-import net.nikodem.model.json.VoteSubmission
+import net.nikodem.model.dto.VoteSubmission
 import spock.lang.Specification
 
 

@@ -1,3 +1,3 @@
-package net.nikodem.model.json;
+package net.nikodem.model.dto;
 
 public abstract class AbstractNikodemocracyResponse {}

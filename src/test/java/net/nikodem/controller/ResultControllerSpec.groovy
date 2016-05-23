@@ -2,9 +2,9 @@ package net.nikodem.controller
 
 import net.nikodem.TestUtils
 import net.nikodem.model.exception.ElectionDoesNotExistException
-import net.nikodem.model.json.ElectionResults
-import net.nikodem.model.json.ResultPlace
-import net.nikodem.model.json.VoteProof
+import net.nikodem.model.dto.ElectionResults
+import net.nikodem.model.dto.ResultPlace
+import net.nikodem.model.dto.VoteProof
 import net.nikodem.service.ResultsService
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -39,7 +39,7 @@ class ResultControllerSpec extends Specification {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build()
     }
 
-    def "happy path"() {
+    def "Requesting results with valid electionId return results object"() {
         when:
         when(resultsServiceMock.getElectionResults('electionId1')).thenReturn(ELECTION_RESULTS_EXAMPLE)
         then:
@@ -56,7 +56,7 @@ class ResultControllerSpec extends Specification {
                 .andExpect(jsonPath('$.sortedResults[0].votes',is(4)))
     }
 
-    def "Election with specified electionId must exist"(){
+    def "Requesting results with electionId must exist"(){
         when:
         when(resultsServiceMock.getElectionResults('electionId2')).thenThrow(new ElectionDoesNotExistException('electionId2'))
         then:

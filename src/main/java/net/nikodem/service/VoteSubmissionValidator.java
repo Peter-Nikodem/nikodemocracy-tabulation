@@ -1,7 +1,7 @@
 package net.nikodem.service;
 
 import net.nikodem.model.exception.*;
-import net.nikodem.model.json.*;
+import net.nikodem.model.dto.*;
 import net.nikodem.repository.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;

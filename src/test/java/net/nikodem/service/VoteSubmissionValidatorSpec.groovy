@@ -1,7 +1,7 @@
 package net.nikodem.service
 
 import net.nikodem.model.exception.*
-import net.nikodem.model.json.VoteSubmission
+import net.nikodem.model.dto.VoteSubmission
 import net.nikodem.repository.AnswerRepository
 import net.nikodem.repository.ElectionRepository
 import net.nikodem.repository.VoteRepository
@@ -131,6 +131,4 @@ class VoteSubmissionValidatorSpec extends Specification {
         expect:
         validator.validate(SYNTACTICALLY_VALID_SUBMISSION)
     }
-
-
 }

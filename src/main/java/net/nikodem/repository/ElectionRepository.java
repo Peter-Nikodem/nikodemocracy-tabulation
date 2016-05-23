@@ -3,9 +3,9 @@ package net.nikodem.repository;
 import net.nikodem.model.entity.ElectionEntity;
 import org.springframework.data.jpa.repository.*;
 
-public interface ElectionRepository extends JpaRepository<ElectionEntity,Long> {
-    ElectionEntity findByElectionId(String electionId);
+import java.util.*;
 
-    @Query("SELECT CASE WHEN (COUNT(*) > 0)  THEN true ELSE false END FROM Election e WHERE e.electionId = ?1 AND e.isFinished = true")
-    boolean isElectionFinished(String electionId);
+public interface ElectionRepository extends JpaRepository<ElectionEntity, Long> {
+
+    Optional<ElectionEntity> findByElectionId(String electionId);
 }

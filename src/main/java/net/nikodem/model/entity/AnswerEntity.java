@@ -1,6 +1,7 @@
 package net.nikodem.model.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity(name = "Answer")
 public class AnswerEntity {
@@ -10,9 +11,11 @@ public class AnswerEntity {
     private long id;
 
     @Column
+    @NotNull
     private String answerText;
 
     @ManyToOne
+    @NotNull
     private ElectionEntity election;
 
     public AnswerEntity(String answerText,ElectionEntity election) {

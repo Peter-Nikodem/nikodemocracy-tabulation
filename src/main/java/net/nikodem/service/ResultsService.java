@@ -1,28 +1,27 @@
 package net.nikodem.service;
 
 import net.nikodem.model.entity.*;
-import net.nikodem.model.json.*;
+import net.nikodem.model.dto.*;
+import net.nikodem.model.exception.*;
 import net.nikodem.repository.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 import java.util.*;
-import java.util.stream.*;
 
 @Service
 public class ResultsService {
 
-    @Autowired
     private ElectionRepository electionRepository;
 
-    @Autowired
     private AnswerRepository answerRepository;
 
-    @Autowired
     private VoteRepository voteRepository;
 
-    public ElectionResults getElectionResults(String electionId) {
-        ElectionEntity election = findElection(electionId);
+    @Transactional(readOnly = true)
+    public ElectionResults getElectionResults(String electionId) throws ElectionDoesNotExistException {
+        ElectionEntity election = findElectionOrThrowException(electionId);
         List<String> answers = findAnswers(election);
         List<VoteEntity> votes = findAllVotes(election);
         ResultPlace[] countedAndSortedVotes = countAndSortVotes(answers, votes);
@@ -31,15 +30,13 @@ public class ResultsService {
                 enumaratedVoterKeysAndTheirAnswers);
     }
 
-    private ElectionEntity findElection(String electionId) {
-        return electionRepository.findByElectionId(electionId);
+    private ElectionEntity findElectionOrThrowException(String electionId) {
+        return electionRepository.findByElectionId(electionId)
+                .orElseThrow(() -> new ElectionDoesNotExistException(electionId));
     }
 
-    private List<String> findAnswers(ElectionEntity election) {
-        return answerRepository.findByElection(election)
-                .stream()
-                .map(AnswerEntity::getAnswerText)
-                .collect(Collectors.toList());
+    private List<String> findAnswers(ElectionEntity election){
+        return answerRepository.findAnswerTextsByElection(election);
     }
 
     private List<VoteEntity> findAllVotes(ElectionEntity election) {
@@ -72,11 +69,28 @@ public class ResultsService {
         }
         return votesForAnswers.entrySet()
                 .stream()
-                .sorted((x, y) -> x.getValue()
-                        .compareTo(y.getValue()) * -1)
+                .sorted(countedVotesComparator())
                 .map(e -> new ResultPlace(e.getKey(), e.getValue()))
                 .toArray(ResultPlace[]::new);
     }
 
+    private Comparator<Map.Entry<String, Integer>> countedVotesComparator() {
+        return (x, y) -> y.getValue()
+                .compareTo(x.getValue());
+    }
 
+    @Autowired
+    public void setElectionRepository(ElectionRepository electionRepository) {
+        this.electionRepository = electionRepository;
+    }
+
+    @Autowired
+    public void setAnswerRepository(AnswerRepository answerRepository) {
+        this.answerRepository = answerRepository;
+    }
+
+    @Autowired
+    public void setVoteRepository(VoteRepository voteRepository) {
+        this.voteRepository = voteRepository;
+    }
 }

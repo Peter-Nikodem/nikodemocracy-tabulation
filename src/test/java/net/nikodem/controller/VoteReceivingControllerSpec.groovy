@@ -1,9 +1,8 @@
 package net.nikodem.controller
 
 import net.nikodem.TestUtils
+import net.nikodem.model.dto.VoteSubmission
 import net.nikodem.model.exception.EmptyElectionIdException
-import net.nikodem.model.exception.NikodemocracyRequestException
-import net.nikodem.model.json.VoteSubmission
 import net.nikodem.service.VoteReceivingService
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -36,7 +35,7 @@ class VoteReceivingControllerSpec extends Specification {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build()
     }
 
-    def "happy path"() {
+    def "Submitting vote with valid information returns HTTP code ACCEPTED"() {
         when:
         doNothing().when(voteReceivingServiceMock).receiveVote(voteSubmission)
         then:
@@ -46,7 +45,7 @@ class VoteReceivingControllerSpec extends Specification {
         ).andExpect(status().isAccepted())
     }
 
-    def "throny path"() {
+    def "Submitting vote with invalid information throws exception"() {
         when:
         doThrow(EmptyElectionIdException).when(voteReceivingServiceMock).receiveVote(voteSubmission)
         then:
@@ -59,5 +58,4 @@ class VoteReceivingControllerSpec extends Specification {
                 .andExpect(jsonPath('$', notNullValue()))
                 .andExpect(jsonPath('$.errorMessage', is(notNullValue())));
     }
-
 }

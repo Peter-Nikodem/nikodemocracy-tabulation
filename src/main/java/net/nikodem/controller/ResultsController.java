@@ -1,7 +1,7 @@
 package net.nikodem.controller;
 
 import net.nikodem.model.exception.*;
-import net.nikodem.model.json.*;
+import net.nikodem.model.dto.*;
 import net.nikodem.service.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class ResultsController {
 
-    ResultsService resultsService;
+    private ResultsService resultsService;
 
     @RequestMapping(value = "/results/{electionId}", method = RequestMethod.GET)
     public ResponseEntity<AbstractNikodemocracyResponse> getResults(@PathVariable(value = "electionId") String electionId) {

@@ -1,4 +1,4 @@
-package net.nikodem.model.json;
+package net.nikodem.model.dto;
 
 import java.util.*;
 
