@@ -4,6 +4,7 @@ import net.nikodem.model.exception.NikodemocracyRequestException;
 import net.nikodem.model.dto.ErrorMessage;
 import net.nikodem.model.dto.VoteSubmission;
 import net.nikodem.service.VoteReceivingService;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ public class VoteReceivingController {
         }
     }
 
+    @Autowired
     public void setVoteReceivingService(VoteReceivingService voteReceivingService) {
         this.voteReceivingService = voteReceivingService;
     }
